@@ -46,9 +46,9 @@ abstract class UrlBuilder
      * Sets the database code to use in the URLs for the API.
      *
      * @param $code
-     * @return $this
+     * @return UrlBuilder
      */
-    public function setDatabaseCode($code)
+    public function setDatabaseCode($code): UrlBuilder
     {
         $this->databaseCode = $code;
         return $this;
@@ -57,9 +57,9 @@ abstract class UrlBuilder
     /**
      * Sets the data return type to JSON; used in the URLs for the API.
      *
-     * @return $this
+     * @return UrlBuilder
      */
-    public function setReturnTypeJSON()
+    public function setReturnTypeJSON(): UrlBuilder
     {
         $this->dataReturnType = 'json';
         return $this;
@@ -68,9 +68,9 @@ abstract class UrlBuilder
     /**
      * Sets the data return type to CSV; used in the URLs for the API.
      *
-     * @return $this
+     * @return UrlBuilder
      */
-    public function setReturnTypeCSV()
+    public function setReturnTypeCSV(): UrlBuilder
     {
         $this->dataReturnType = 'csv';
         return $this;
@@ -79,9 +79,9 @@ abstract class UrlBuilder
     /**
      * Sets the data return type to XML; used in the URLs for the API.
      *
-     * @return $this
+     * @return UrlBuilder
      */
-    public function setReturnTypeXML()
+    public function setReturnTypeXML(): UrlBuilder
     {
         $this->dataReturnType = 'xml';
         return $this;
@@ -92,7 +92,7 @@ abstract class UrlBuilder
      *
      * @return string
      */
-    public function getDatabaseCode()
+    public function getDatabaseCode(): string
     {
         return $this->databaseCode;
     }
@@ -102,7 +102,7 @@ abstract class UrlBuilder
      *
      * @return string
      */
-    public function getBaseUrl()
+    public function getBaseUrl(): string
     {
         return $this->baseEndpoint;
     }
@@ -112,7 +112,7 @@ abstract class UrlBuilder
      *
      * @return string
      */
-    public function getApiType()
+    public function getApiType(): string
     {
         return $this->apiType;
     }
@@ -122,7 +122,7 @@ abstract class UrlBuilder
      *
      * @return string
      */
-    public function getApiVersion()
+    public function getApiVersion(): string
     {
         return $this->apiVersion;
     }
@@ -132,7 +132,7 @@ abstract class UrlBuilder
      *
      * @return string
      */
-    public function getDataReturnType()
+    public function getDataReturnType(): string
     {
         return $this->dataReturnType;
     }
