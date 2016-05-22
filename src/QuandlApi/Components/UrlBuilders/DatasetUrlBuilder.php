@@ -12,7 +12,7 @@ class DatasetUrlBuilder extends UrlBuilder
      * @param string $datasetCode
      * @return string
      */
-    public function buildDataUrl(string $datasetCode): string
+    public function data(string $datasetCode): string
     {
         return $this->buildUrl($datasetCode, 'data');
     }
@@ -20,10 +20,10 @@ class DatasetUrlBuilder extends UrlBuilder
     /**
      * Builds the URL needed for to query/download the metadata in a dataset object
      *
-     * @param $datasetCode
+     * @param string $datasetCode
      * @return string
      */
-    public function buildMetadataUrl($datasetCode): string
+    public function metadata(string $datasetCode): string
     {
         return $this->buildUrl($datasetCode, 'metadata');
     }
@@ -31,10 +31,10 @@ class DatasetUrlBuilder extends UrlBuilder
     /**
      * Builds the URL needed for to query/download the data and metadata in a dataset object
      *
-     * @param $datasetCode
+     * @param string $datasetCode
      * @return string
      */
-    public function buildDataAndMetadataUrl($datasetCode): string
+    public function dataAndMetadata(string $datasetCode): string
     {
         return $this->buildUrl($datasetCode);
     }
@@ -44,7 +44,7 @@ class DatasetUrlBuilder extends UrlBuilder
      *
      * @return string
      */
-    public function buildSearchUrl(): string
+    public function search(): string
     {
         return $this->buildUrl('');
     }

@@ -9,6 +9,9 @@ class DatasetUrlBuilderTest extends \PHPUnit_Framework_TestCase
     /** @var DatasetUrlBuilder */
     protected $urlBuilder;
 
+    /** @var string */
+    protected $baseUrl = 'https://www.quandl.com/api/v3/datasets';
+
     public function setUp()
     {
         parent::setUp();
@@ -19,9 +22,8 @@ class DatasetUrlBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $datasetCode = '12345';
         $this->assertEquals(
-            'https://www.quandl.com/api/v3/datasets/'.$this->urlBuilder->getDatabaseCode()
-                .'/'.$datasetCode.'/data.'.$this->urlBuilder->getDataReturnType(),
-            $this->urlBuilder->buildDataUrl($datasetCode)
+            $this->baseUrl.'/WIKI/12345/data.json',
+            $this->urlBuilder->data($datasetCode)
         );
     }
 
@@ -29,9 +31,8 @@ class DatasetUrlBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $datasetCode = '12345';
         $this->assertEquals(
-            'https://www.quandl.com/api/v3/datasets/'.$this->urlBuilder->getDatabaseCode()
-            .'/'.$datasetCode.'/metadata.'.$this->urlBuilder->getDataReturnType(),
-            $this->urlBuilder->buildMetadataUrl($datasetCode)
+            $this->baseUrl.'/WIKI/12345/metadata.json',
+            $this->urlBuilder->metadata($datasetCode)
         );
     }
 
@@ -39,18 +40,14 @@ class DatasetUrlBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $datasetCode = '12345';
         $this->assertEquals(
-            'https://www.quandl.com/api/v3/datasets/'.$this->urlBuilder->getDatabaseCode()
-            .'/'.$datasetCode.'.'.$this->urlBuilder->getDataReturnType(),
-            $this->urlBuilder->buildDataAndMetadataUrl($datasetCode)
+            $this->baseUrl.'/WIKI/12345.json',
+            $this->urlBuilder->dataAndMetadata($datasetCode)
         );
     }
 
-    public function test_search_url_with_default_return_type()
+    public function test_search_url_with_default_return_type_json()
     {
-        $this->assertEquals(
-            'https://www.quandl.com/api/v3/datasets.'.$this->urlBuilder->getDataReturnType(),
-            $this->urlBuilder->buildSearchUrl()
-        );
+        $this->assertContains('.json', $this->urlBuilder->search());
     }
 
     public function returnTypeDataProvider()
@@ -62,33 +59,31 @@ class DatasetUrlBuilderTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    /** @dataProvider returnTypeDataProvider */
+    /**
+     * @param string $dataType The data type to change to.
+     * @dataProvider returnTypeDataProvider
+     */
     public function test_return_types_can_be_changed($dataType)
     {
         $this->urlBuilder->{'setReturnType'.$dataType}();
-        $this->assertEquals(
-            'https://www.quandl.com/api/v3/datasets.'.strtolower($dataType),
-            $this->urlBuilder->buildSearchUrl()
-        );
+        $this->assertStringEndsWith('.'.strtolower($dataType), $this->urlBuilder->search());
     }
 
     public function test_can_change_database_code()
     {
+        $this->assertEquals('WIKI', $this->urlBuilder->getDatabaseCode());
+
         $code = 'GET123';
         $this->urlBuilder->setDatabaseCode($code);
-        $this->assertStringStartsWith(
-            'https://www.quandl.com/api/v3/datasets/'.$code.'/',
-            $this->urlBuilder->buildDataUrl(123456)
-        );
+
+        $this->assertEquals('GET123', $this->urlBuilder->getDatabaseCode());
     }
     
     public function test_url_builder_can_be_constructed_with_a_given_database_code()
     {
         $code = 'Test789';
         $urlBuilder = new DatasetUrlBuilder($code);
-        $this->assertStringStartsWith(
-            'https://www.quandl.com/api/v3/datasets/'.$code.'/',
-            $urlBuilder->buildDataUrl(123456)
-        );
+
+        $this->assertEquals('Test789', $urlBuilder->getDatabaseCode());
     }
 }
